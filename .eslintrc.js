@@ -5,9 +5,9 @@ module.exports = {
     "es6": true
   },
 
-  "plugins": ["react", "babel"],
+  "plugins": ["react", "babel", "jsx-a11y"],
 
-  "extends": "airbnb-standard",
+  "extends": "airbnb",
 
   "parserOptions": {
         "sourceType": "module",
@@ -35,6 +35,17 @@ module.exports = {
     "templateStrings": true,
     "unicodeCodePointEscapes": true,
     "globalReturn": true,
-    "jsx": true
+    "jsx": true,
+    "no-undef": "warn",
+    "react/react-in-jsx-scope": "off",
+    "react/destructuring-assignment": "warn",
+    "react/forbid-prop-types": "warn",
+    "react/no-deprecated": "warn",
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "react/jsx-filename-extension": "warn",
+    "no-unused-vars": "warn",
   },
 }
