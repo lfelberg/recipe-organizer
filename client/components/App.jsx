@@ -22,12 +22,16 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      search: '',
       recipes: generateManyRecipes(),
       currentRecipeId: null,
       viewRecipe: false,
     };
 
     this.handleCurrentRecipeChange = this.handleCurrentRecipeChange.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.getRecipeList = this.getRecipeList.bind(this);
+    this.showAll = this.showAll.bind(this);
   }
 
   getCurrentRecipe() {
@@ -36,19 +40,32 @@ class App extends React.Component {
   }
 
   getRecipeList() {
-    const { recipes, currentRecipeId } = this.state;
+    const { recipes, currentRecipeId, search } = this.state;
     const recipeListEntries = [];
     const keys = Object.keys(recipes);
     keys.forEach((id) => {
+      const current = recipes[id];
       if (currentRecipeId !== id) {
-        recipeListEntries.push(recipes[id]);
+        if ((search !== '') && current.name.toLowerCase().includes(search)) {
+          recipeListEntries.push(current);
+        } else if (search === '') {
+          recipeListEntries.push(recipes[id]);
+        }
       }
     });
     return recipeListEntries;
   }
 
+  handleSearch(text) {
+    this.setState({ search: text });
+  }
+
   handleCurrentRecipeChange(currentRecipeId) {
     this.setState({ currentRecipeId, viewRecipe: true });
+  }
+
+  showAll() {
+    this.setState({ search: '', viewRecipe: false });
   }
 
   render() {
@@ -58,7 +75,10 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <Nav />
+            <Nav
+              homeNav={this.showAll}
+              handleSearch={this.handleSearch}
+            />
           </div>
         </nav>
         <div className="viewer">
