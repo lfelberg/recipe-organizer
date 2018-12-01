@@ -1,6 +1,5 @@
 import { v1 } from 'uuid';
 import React from 'react';
-import PropTypes from 'prop-types';
 import Nav from './Nav';
 import RecipeList from './RecipeList';
 import RecipeViewer from './RecipeViewer';
@@ -34,7 +33,8 @@ class App extends React.Component {
   }
 
   getCurrentRecipe() {
-    return this.state.recipes[this.state.currentRecipeId];
+    const { recipes, currentRecipeId } = this.state;
+    return recipes[currentRecipeId];
   }
 
   getRecipeList() {

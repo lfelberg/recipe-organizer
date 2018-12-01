@@ -8,7 +8,7 @@ const IngredientsListEntry = ({ item }) => {
 };
 
 IngredientsListEntry.propTypes = {
-  item: React.PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired,
 };
 
 export default IngredientsListEntry;

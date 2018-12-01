@@ -19,8 +19,8 @@ const RecipeList = ({ recipes, onCurrentRecipeChange }) => {
 };
 
 RecipeList.propTypes = {
-  recipes: React.PropTypes.array.isRequired,
-  onCurrentRecipeChange: React.PropTypes.func.isRequired,
+  recipes: PropTypes.array.isRequired,
+  onCurrentRecipeChange: PropTypes.func.isRequired,
 };
 
 export default RecipeList;

@@ -15,7 +15,7 @@ const IngredientsList = (props) => {
 };
 
 IngredientsList.propTypes = {
-  ingredients: React.PropTypes.array.isRequired,
+  ingredients: PropTypes.array.isRequired,
 };
 
 export default IngredientsList;

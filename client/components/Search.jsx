@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 const Search = () => (
   <div className="search-bar form-inline">
