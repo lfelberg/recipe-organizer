@@ -7,7 +7,7 @@ import exampleRecipeData from '../../database/data/exampleRecipes';
 
 const generateManyRecipes = () => {
   const recipes = {};
-  for (let i = 0; i < 300; i += 1) {
+  for (let i = 0; i < 30; i += 1) {
     const index = Math.floor(Math.random() * exampleRecipeData.length);
     const entry = Object.assign({}, exampleRecipeData[index]);
     const uuid = v1();
@@ -28,8 +28,6 @@ class App extends React.Component {
     };
 
     this.handleCurrentRecipeChange = this.handleCurrentRecipeChange.bind(this);
-    this.getRecipeList = this.getRecipeList.bind(this);
-    this.getCurrentRecipe = this.getCurrentRecipe.bind(this);
   }
 
   getCurrentRecipe() {
@@ -50,7 +48,7 @@ class App extends React.Component {
   }
 
   handleCurrentRecipeChange(currentRecipeId) {
-    this.setState({ currentRecipeId });
+    this.setState({ currentRecipeId, viewRecipe: true });
   }
 
   render() {
@@ -66,12 +64,10 @@ class App extends React.Component {
         <div className="viewer">
           {current}
         </div>
-        <div className="tile">
-          <RecipeList
-            recipes={this.getRecipeList()}
-            onCurrentRecipeChange={this.handleCurrentRecipeChange}
-          />
-        </div>
+        <RecipeList
+          recipes={this.getRecipeList()}
+          onCurrentRecipeChange={this.handleCurrentRecipeChange}
+        />
       </div>
     );
   }

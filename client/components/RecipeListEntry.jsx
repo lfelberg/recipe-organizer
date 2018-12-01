@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const RecipeListEntry = ({ recipe, onCurrentRecipeChange }) => {
-  const { name, imageURL } = recipe;
+  const { id, name, imageURL } = recipe;
   return (
     <div
-      className="recipe-list-entry media"
+      className="recipe-list-entry"
       onClick={() => {
-        onCurrentRecipeChange(name);
+        onCurrentRecipeChange(id);
       }}
-      key={name}
+      key={id}
     >
-      <div className="media-left media-middle">
+      <div className="media-left">
         <img className="media-object" src={imageURL} alt="" />
       </div>
       <div className="media-body">

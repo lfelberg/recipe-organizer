@@ -63,6 +63,8 @@ body {
 /***********************************/
 
 .recipe-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   background: #fff;
   padding: 8px;
   border: 0;
@@ -94,8 +96,8 @@ body {
 }
 
 .media-object {
-  width: 100px;
-  height: 100px;
+  width: 250px;
+  height: 250px;
 }
 
 .media-body {
