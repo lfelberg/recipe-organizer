@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const RecipeListEntry = (props) => {
-  const { name, imageURL } = props.recipe;
+const RecipeListEntry = ({ recipe, onCurrentRecipeChange }) => {
+  const { name, imageURL } = recipe;
   return (
     <div
       className="recipe-list-entry media"
       onClick={() => {
-        props.onCurrentRecipeChange(props.recipe.name);
+        onCurrentRecipeChange(name);
       }}
       key={name}
     >

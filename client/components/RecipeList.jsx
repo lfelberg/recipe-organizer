@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RecipeListEntry from './RecipeListEntry';
 
-const RecipeList = (props) => {
-  const { recipes } = props;
+const RecipeList = ({ recipes, onCurrentRecipeChange }) => {
   const recipeListEntries = recipes.map(recipe => (
     <RecipeListEntry
       recipe={recipe}
-      key={recipe.name}
-      onCurrentRecipeChange={props.onCurrentRecipeChange}
+      key={recipe.id}
+      onCurrentRecipeChange={onCurrentRecipeChange}
     />
   ));
 

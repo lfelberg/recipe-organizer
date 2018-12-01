@@ -12,6 +12,7 @@
     "test": "echo 'No tests yet!'"
   },
   "dependencies": {
+    "uuid": "^3.3.2",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "prop-types": "^15.6.2",
