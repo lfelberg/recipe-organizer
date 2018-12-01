@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Search from './Search';
 
-const Nav = ({ handleSearch, homeNav }) => (
+const Nav = ({ handleFilter, handleSearch, homeNav }) => (
   <div className="search-bar form-inline">
     <button
       type="button"
@@ -14,11 +14,13 @@ const Nav = ({ handleSearch, homeNav }) => (
     <button type="button" className="btn hidden-sm-down">
       MyList
     </button>
-    <Search handleSearch={handleSearch} />
+    <Search handleSearch={handleFilter} type="filter" />
+    <Search handleSearch={handleSearch} type="search" />
   </div>
 );
 
 Nav.propTypes = {
+  handleFilter: PropTypes.func.isRequired,
   handleSearch: PropTypes.func.isRequired,
   homeNav: PropTypes.func.isRequired,
 };

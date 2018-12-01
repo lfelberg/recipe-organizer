@@ -1,26 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import IngredientsList from './ingredientsList';
-import StepsList from './stepsList';
 
-const RecipeViewer = (props) => {
-  const { name, imageURL } = props.recipe;
+const RecipeViewer = ({ recipe }) => {
+  const { label, image } = recipe;
   return (
     <div className="recipe-viewer-details">
       <div className="recipe-viewer">
         <div className="recipe-pic">
-          <img className="recipe-viewer-image" src={imageURL} alt={name} />
+          <img className="recipe-viewer-image" src={image} alt={label} />
         </div>
-        <h3>{name}</h3>
-        <IngredientsList ingredients={props.recipe.ingredients} />
-        <StepsList steps={props.recipe.steps} />
+        <h3>{label}</h3>
+        <IngredientsList ingredients={recipe.ingredients} />
       </div>
     </div>
   );
 };
 
 RecipeViewer.propTypes = {
-  recipe: React.PropTypes.object.isRequired,
+  recipe: PropTypes.object.isRequired,
 };
 
 export default RecipeViewer;

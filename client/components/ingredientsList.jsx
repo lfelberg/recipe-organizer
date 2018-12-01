@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import IngredientsListEntry from './ingredientsListEntry';
 
-const IngredientsList = (props) => {
-  const { ingredients } = props;
-  const ingredient = ingredients.map(i => <IngredientsListEntry item={i} key={i.name} />);
+const IngredientsList = ({ ingredients }) => {
+  const ingredient = ingredients.map(i => <IngredientsListEntry item={i} key={i.text} />);
   return (
     <div className="recipe-viewer">
       <ul>

@@ -1,21 +1,9 @@
-import { v1 } from 'uuid';
 import React from 'react';
 import Nav from './Nav';
 import RecipeList from './RecipeList';
 import RecipeViewer from './RecipeViewer';
-import exampleRecipeData from '../../database/data/exampleRecipes';
-
-const generateManyRecipes = () => {
-  const recipes = {};
-  for (let i = 0; i < 30; i += 1) {
-    const index = Math.floor(Math.random() * exampleRecipeData.length);
-    const entry = Object.assign({}, exampleRecipeData[index]);
-    const uuid = v1();
-    entry.id = uuid;
-    recipes[uuid] = entry;
-  }
-  return recipes;
-};
+import searchEdamam from '../lib/searchEdamam';
+import parseRecipes from '../lib/parseRecipes';
 
 class App extends React.Component {
   constructor(props) {
@@ -23,7 +11,7 @@ class App extends React.Component {
 
     this.state = {
       search: '',
-      recipes: generateManyRecipes(),
+      recipes: null,
       currentRecipeId: null,
       viewRecipe: false,
     };
@@ -32,6 +20,14 @@ class App extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.getRecipeList = this.getRecipeList.bind(this);
     this.showAll = this.showAll.bind(this);
+  }
+
+  componentDidMount() {
+    searchEdamam()
+      .then(response => response.json())
+      .then(results => parseRecipes(results))
+      .then(recipes => this.setState({ recipes }))
+      .catch(err => console.log(`Error: ${err}`));
   }
 
   getCurrentRecipe() {
@@ -46,7 +42,7 @@ class App extends React.Component {
     keys.forEach((id) => {
       const current = recipes[id];
       if (currentRecipeId !== id) {
-        if ((search !== '') && current.name.toLowerCase().includes(search)) {
+        if ((search !== '') && current.label.toLowerCase().includes(search)) {
           recipeListEntries.push(current);
         } else if (search === '') {
           recipeListEntries.push(recipes[id]);
@@ -57,10 +53,11 @@ class App extends React.Component {
   }
 
   handleSearch(text) {
-    this.setState({ search: text });
+    this.setState({ search: text, viewRecipe: false });
   }
 
   handleCurrentRecipeChange(currentRecipeId) {
+    window.scrollTo(0, 0);
     this.setState({ currentRecipeId, viewRecipe: true });
   }
 
@@ -69,12 +66,19 @@ class App extends React.Component {
   }
 
   render() {
-    const { viewRecipe } = this.state;
+    const { viewRecipe, recipes } = this.state;
+    const list = (recipes === null) ? 'Loading...'
+      : (
+        <RecipeList
+          recipes={this.getRecipeList()}
+          onCurrentRecipeChange={this.handleCurrentRecipeChange}
+        />
+      );
     const current = (viewRecipe) ? (<RecipeViewer recipe={this.getCurrentRecipe()} />) : '';
     return (
       <div>
         <nav className="navbar">
-          <div className="col-md-6 offset-md-3">
+          <div className="col-md-8 offset-md-2">
             <Nav
               homeNav={this.showAll}
               handleSearch={this.handleSearch}
@@ -84,10 +88,7 @@ class App extends React.Component {
         <div className="viewer">
           {current}
         </div>
-        <RecipeList
-          recipes={this.getRecipeList()}
-          onCurrentRecipeChange={this.handleCurrentRecipeChange}
-        />
+        {list}
       </div>
     );
   }

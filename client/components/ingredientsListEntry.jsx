@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const IngredientsListEntry = ({ item }) => {
-  const { quantity, name } = item;
-  const ingredient = `${quantity} ${name}`;
-  return (<li>{ingredient}</li>);
+  const { text } = item;
+  return (<li>{text}</li>);
 };
 
 IngredientsListEntry.propTypes = {

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const RecipeListEntry = ({ recipe, onCurrentRecipeChange }) => {
-  const { id, name, imageURL } = recipe;
+  const { id, label, image } = recipe;
   return (
     <div
       className="recipe-list-entry"
@@ -12,11 +12,11 @@ const RecipeListEntry = ({ recipe, onCurrentRecipeChange }) => {
       key={id}
     >
       <div className="media-left">
-        <img className="media-object" src={imageURL} alt="" />
+        <img className="media-object" src={image} alt="" />
       </div>
       <div className="media-body">
         <div className="recipe-list-entry-name">
-          {name}
+          {label}
         </div>
       </div>
     </div>
