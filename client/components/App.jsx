@@ -10,7 +10,10 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      search: '',
+      entries: {
+        filter: '',
+        search: '',
+      },
       recipes: null,
       currentRecipeId: null,
       viewRecipe: false,
@@ -18,16 +21,13 @@ class App extends React.Component {
 
     this.handleCurrentRecipeChange = this.handleCurrentRecipeChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.getRecipeList = this.getRecipeList.bind(this);
     this.showAll = this.showAll.bind(this);
   }
 
   componentDidMount() {
-    searchEdamam()
-      .then(response => response.json())
-      .then(results => parseRecipes(results))
-      .then(recipes => this.setState({ recipes }))
-      .catch(err => console.log(`Error: ${err}`));
+    this.search();
   }
 
   getCurrentRecipe() {
@@ -36,15 +36,16 @@ class App extends React.Component {
   }
 
   getRecipeList() {
-    const { recipes, currentRecipeId, search } = this.state;
+    const { recipes, currentRecipeId, entries } = this.state;
+    const { filter } = entries;
     const recipeListEntries = [];
     const keys = Object.keys(recipes);
     keys.forEach((id) => {
       const current = recipes[id];
       if (currentRecipeId !== id) {
-        if ((search !== '') && current.label.toLowerCase().includes(search)) {
+        if ((filter !== '') && current.label.toLowerCase().includes(filter.toLowerCase())) {
           recipeListEntries.push(current);
-        } else if (search === '') {
+        } else if (filter === '') {
           recipeListEntries.push(recipes[id]);
         }
       }
@@ -52,8 +53,24 @@ class App extends React.Component {
     return recipeListEntries;
   }
 
-  handleSearch(text) {
-    this.setState({ search: text, viewRecipe: false });
+  search(query) {
+    searchEdamam(query)
+      .then(response => response.json())
+      .then(results => parseRecipes(results))
+      .then(recipes => this.setState({ recipes }))
+      .catch(err => console.log(`Error: ${err}`));
+  }
+
+  handleChange(key, text) {
+    const { entries } = this.state;
+    entries[key] = text;
+    this.setState({ entries, viewRecipe: false });
+  }
+
+  handleSearch() {
+    const { entries } = this.state;
+    const { search } = entries;
+    this.search(search);
   }
 
   handleCurrentRecipeChange(currentRecipeId) {
@@ -62,7 +79,8 @@ class App extends React.Component {
   }
 
   showAll() {
-    this.setState({ search: '', viewRecipe: false });
+    const entries = { filter: '', search: '' };
+    this.setState({ entries, viewRecipe: false });
   }
 
   render() {
@@ -81,6 +99,7 @@ class App extends React.Component {
           <div className="col-md-8 offset-md-2">
             <Nav
               homeNav={this.showAll}
+              handleChange={this.handleChange}
               handleSearch={this.handleSearch}
             />
           </div>
