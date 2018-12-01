@@ -1,3 +1,6 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
 const RecipeListEntry = (props) => {
   const { name, imageURL } = props.recipe;
   return (

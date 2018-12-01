@@ -1,6 +1,8 @@
-import RecipeList from './RecipeList.js';
-import RecipeViewer from './RecipeViewer.js';
-import exampleRecipeData from '../data/exampleRecipes.js';
+import React from 'react';
+import PropTypes from 'prop-types';
+import RecipeList from './RecipeList';
+import RecipeViewer from './RecipeViewer';
+import exampleRecipeData from '../../database/data/exampleRecipes';
 
 class App extends React.Component {
   constructor(props) {

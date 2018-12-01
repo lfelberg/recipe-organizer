@@ -1,4 +1,6 @@
-import IngredientsListEntry from './ingredientsListEntry.js';
+import React from 'react';
+import PropTypes from 'prop-types';
+import IngredientsListEntry from './ingredientsListEntry';
 
 const IngredientsList = (props) => {
   const { ingredients } = props;

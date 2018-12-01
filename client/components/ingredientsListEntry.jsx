@@ -1,3 +1,6 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
 const IngredientsListEntry = (props) => {
   const { item } = props;
   const { quantity, name } = item;

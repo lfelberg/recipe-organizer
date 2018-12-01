@@ -1,5 +1,7 @@
-import IngredientsList from './ingredientsList.js';
-import StepsList from './stepsList.js';
+import React from 'react';
+import PropTypes from 'prop-types';
+import IngredientsList from './ingredientsList';
+import StepsList from './stepsList';
 
 const RecipeViewer = (props) => {
   const { name, imageURL } = props.recipe;

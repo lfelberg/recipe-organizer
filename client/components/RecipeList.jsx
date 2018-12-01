@@ -1,4 +1,6 @@
-import RecipeListEntry from './RecipeListEntry.js';
+import React from 'react';
+import PropTypes from 'prop-types';
+import RecipeListEntry from './RecipeListEntry';
 
 const RecipeList = (props) => {
   const { recipes } = props;

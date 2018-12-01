@@ -1,29 +1,38 @@
 {
-  "name": "what's for dinner?",
+  "name": "whatsfordinner",
   "version": "1.1.0",
   "description": "Recipe organizer",
   "author": "L Felberg",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "bash start.sh",
-    "test": "live-server --open=./SpecRunner.html --port=8081"
+    "start": "nodemon server/index.js",
+    "build:dev": "webpack -d --watch",
+    "build:prod": "webpack -p",
+    "test": "echo 'No tests yet!'"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0-alpha.2",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "prop-types": "^15.6.2",
     "react": "^0.14.7",
     "react-dom": "^0.14.7"
   },
   "devDependencies": {
-    "babel-cli": "^6.6.5",
-    "babel-eslint": "^10.0.1",
-    "babel-plugin-react": "1.0.0",
-    "babel-preset-react": "^6.5.0",
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.4",
+    "css-loader": "^1.0.1",
     "eslint": "^5.6.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-babel": "^5.2.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-react": "^7.11.1"
+    "eslint-plugin-react": "^7.11.1",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2"
   }
 }

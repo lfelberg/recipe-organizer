@@ -1,3 +1,6 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
 const StepsListEntry = props => (<li>{props.step}</li>);
 
 StepsListEntry.propTypes = {
