@@ -4,6 +4,8 @@ const https = require('https');
 const express = require('express');
 const bodyParser = require('body-parser');
 const user = require('./routes/user');
+const recipe = require('./routes/recipe');
+const utils = require('./lib/utils');
 const db = require('../database/index');
 const {
   findUserAndValidate,
@@ -26,36 +28,28 @@ app.use(express.static(path.resolve(__dirname, '../public')));
 
 // routes
 app.use('/api/users/:username', user);
+app.use('/api/recipes', recipe);
 
 app.post('/login', (req, res) => {
-  findUserAndValidate(req.body)
+  const { username } = req.body;
+  let { password } = req.body;
+  password = utils.createHash(password);
+  findUserAndValidate({ username, password })
     .then((data) => {
       res.status(200).send({ data });
     });
 });
 
 app.post('/signup', (req, res) => {
-  addUser(req.body)
+  const { username } = req.body;
+  let { password } = req.body;
+  password = utils.createHash(password);
+  addUser({ username, password })
     .then((data) => {
       res.status(200).send({ data });
     });
 });
 
-
-app.get('/api/recipes', (req, res) => {
-  const { query } = req;
-  let results = '';
-  let url = process.env.EDAMAM_URL;
-  url += `?q=${query.q}&app_id=${process.env.EDAMAM_APP}&app_key=${process.env.EDAMAM_KEY}`;
-  https.get(url, (edam) => {
-    let resData = '';
-    edam.on('data', (data) => { resData += data; });
-    edam.on('end', () => {
-      results = JSON.parse(resData).hits;
-      res.send(results);
-    });
-  }).on('error', (err) => { console.log(`Error: ${err.message}`); });
-});
 
 app.listen(port, () => {
   console.log(`listening at ${port}`);

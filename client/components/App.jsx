@@ -69,7 +69,7 @@ class App extends React.Component {
   search(query) {
     searchEdamam(query)
       .then(response => response.json())
-      .then(results => parseRecipes(results))
+      .then(results => parseRecipes(results.data))
       .then(recipes => this.setState({ recipes }))
       .catch(err => console.log(`Error: ${err}`));
   }
@@ -87,7 +87,7 @@ class App extends React.Component {
 
     fetch(`/api/users/${session.username}/recipes`, options)
       .then(res => res.json())
-      .then(() => this.setState({ session }));
+      .then(() => this.setState({ session, viewRecipe: false }));
   }
 
   handleChange(key, text, type = 'search') {
@@ -202,6 +202,7 @@ class App extends React.Component {
               myList={this.showMyList}
               handleChange={this.handleChange}
               handleSearch={this.handleSearch}
+              username={session.username}
             />
           </div>
         </nav>

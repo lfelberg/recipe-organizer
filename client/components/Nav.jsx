@@ -7,6 +7,7 @@ const Nav = ({
   handleSearch,
   homeNav,
   myList,
+  username,
 }) => (
   <div className="search-bar form-inline">
     <button
@@ -24,6 +25,7 @@ const Nav = ({
       MyList
     </button>
     <Search handleChange={handleChange} handleSearch={() => {}} type="filter" />
+    <h2>{`Welcome ${username}!`}</h2>
     <Search handleChange={handleChange} handleSearch={handleSearch} type="search" />
   </div>
 );
@@ -33,6 +35,7 @@ Nav.propTypes = {
   handleSearch: PropTypes.func.isRequired,
   homeNav: PropTypes.func.isRequired,
   myList: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
 };
 
 export default Nav;

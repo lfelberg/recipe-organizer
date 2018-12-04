@@ -6,11 +6,6 @@ const {
 
 const userRouter = express.Router({ mergeParams: true });
 
-userRouter.use((req, res, next) => {
-  console.log(`incoming ${req.method} from ${req.path}, ${Object.entries(req.params)}`);
-  next();
-});
-
 userRouter.get('/recipes', (req, res) => {
   getUserRecipes(req.params)
     .then((query) => {

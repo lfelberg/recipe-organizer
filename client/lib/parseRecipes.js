@@ -1,12 +1,10 @@
-import { v1 } from 'uuid';
-
 const parseRecipes = (recipes) => {
-  const recArray = Array.from(recipes);
-  const cleaned = recArray.reduce((recipesAll, rec) => {
-    const entry = Object.assign({}, rec.recipe);
-    const uuid = v1();
-    entry.id = uuid;
-    recipesAll[uuid] = entry;
+  console.log('incoming from server', recipes);
+  const cleaned = recipes.reduce((recipesAll, rec) => {
+    const entry = Object.assign({}, rec);
+    const { _id } = entry;
+    entry.id = _id;
+    recipesAll[entry.id] = entry;
     return recipesAll;
   }, {});
   return cleaned;
