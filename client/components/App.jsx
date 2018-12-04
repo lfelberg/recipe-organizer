@@ -18,12 +18,12 @@ class App extends React.Component {
       session: {
         username: 'lisa',
         password: 'lisa',
-        recipes: [],
+        recipes: null,
         error: '',
       },
 
       recipes: null,
-      currentRecipeId: null,
+      currentRecipe: null,
       viewRecipe: false,
       showMyRecipes: false,
       loggedIn: true,
@@ -43,23 +43,18 @@ class App extends React.Component {
     this.search();
   }
 
-  getCurrentRecipe() {
-    const { recipes, currentRecipeId } = this.state;
-    return recipes[currentRecipeId];
-  }
-
-  getRecipeList() {
-    const { recipes, currentRecipeId, entries } = this.state;
+  getRecipeList(recipesToFilter) {
+    const { currentRecipeId, entries } = this.state;
     const { filter } = entries;
     const recipeListEntries = [];
-    const keys = Object.keys(recipes);
+    const keys = Object.keys(recipesToFilter);
     keys.forEach((id) => {
-      const current = recipes[id];
+      const current = recipesToFilter[id];
       if (currentRecipeId !== id) {
         if ((filter !== '') && current.label.toLowerCase().includes(filter.toLowerCase())) {
           recipeListEntries.push(current);
         } else if (filter === '') {
-          recipeListEntries.push(recipes[id]);
+          recipeListEntries.push(recipesToFilter[id]);
         }
       }
     });
@@ -70,19 +65,20 @@ class App extends React.Component {
     searchEdamam(query)
       .then(response => response.json())
       .then(results => parseRecipes(results.data))
-      .then(recipes => this.setState({ recipes }))
+      .then(recipes => this.setState({ recipes, showMyRecipes: false, viewRecipe: false }))
       .catch(err => console.log(`Error: ${err}`));
   }
 
   handleAdd(id) {
     const { session, recipes } = this.state;
-    session.recipes.push(recipes[id]);
+    session.recipes = (session.recipes === null) ? {} : session.recipes;
+    session.recipes[id] = recipes[id];
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
       },
-      body: JSON.stringify(session),
+      body: JSON.stringify(Object.values(session.recipes)),
     };
 
     fetch(`/api/users/${session.username}/recipes`, options)
@@ -106,9 +102,11 @@ class App extends React.Component {
     this.search(search);
   }
 
-  handleCurrentRecipeChange(currentRecipeId) {
+  handleCurrentRecipeChange(id) {
+    const { recipes, session, showMyRecipes } = this.state;
     window.scrollTo(0, 0);
-    this.setState({ currentRecipeId, viewRecipe: true });
+    const currentRecipe = (showMyRecipes) ? session.recipes[id] : recipes[id];
+    this.setState({ currentRecipe, viewRecipe: true });
   }
 
   login(loginExists = true) {
@@ -142,8 +140,9 @@ class App extends React.Component {
     fetch(`/api/users/${session.username}/recipes`)
       .then(res => res.json())
       .then((res) => {
-        session.recipes = res.data;
-        this.setState({ showMyRecipes: true, session });
+        session.recipes = {};
+        res.data.forEach((recipe) => { session.recipes[recipe.id] = recipe; });
+        this.setState({ session, showMyRecipes: true, viewRecipe: false });
       });
   }
 
@@ -154,7 +153,7 @@ class App extends React.Component {
       entries,
       viewRecipe: false,
       showMyRecipes: false,
-      currentRecipeId: null,
+      currentRecipe: null,
     });
   }
 
@@ -162,32 +161,27 @@ class App extends React.Component {
     const {
       viewRecipe,
       showMyRecipes,
+      currentRecipe,
       recipes,
       session,
     } = this.state;
-    let list = (recipes === null) ? 'Loading...'
+    const recipesToFilter = (showMyRecipes) ? session.recipes : recipes;
+    const cb = (showMyRecipes) ? () => {} : this.addToMyRecipes;
+
+    const list = (recipesToFilter === null) ? 'Loading...'
       : (
         <RecipeList
-          recipes={this.getRecipeList()}
-          addRecipe={this.addToMyRecipes}
+          recipes={this.getRecipeList(recipesToFilter)}
+          addRecipe={cb}
           onCurrentRecipeChange={this.handleCurrentRecipeChange}
         />
       );
-
-    if (showMyRecipes) {
-      list = (
-        <RecipeList
-          recipes={session.recipes}
-          onCurrentRecipeChange={this.handleCurrentRecipeChange}
-        />
-      );
-    }
 
     let current = '';
     if (viewRecipe) {
       current = (
         <RecipeViewer
-          recipe={this.getCurrentRecipe()}
+          recipe={currentRecipe}
           handleAdd={this.handleAdd}
         />
       );

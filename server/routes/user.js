@@ -14,7 +14,9 @@ userRouter.get('/recipes', (req, res) => {
 });
 
 userRouter.post('/recipes', (req, res) => {
-  addUserRecipe(req.body)
+  console.log('incoming from client', req.body);
+  const { username } = req.params;
+  addUserRecipe({ recipes: req.body, username })
     .then((data) => {
       res.status(200).send({ data });
     });
