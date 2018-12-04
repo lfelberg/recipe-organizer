@@ -17,19 +17,19 @@ class App extends React.Component {
         filter: '',
         search: '',
       },
+
+      loggedIn: false,
       session: {
-        username: 'lisa',
-        password: 'lisa',
+        username: '',
+        password: '',
         recipes: null,
         error: '',
       },
-
       recipes: null,
       currentRecipe: null,
       recentAdded: false,
       viewRecipe: false,
       showMyRecipes: false,
-      loggedIn: true,
     };
 
     this.handleCurrentRecipeChange = this.handleCurrentRecipeChange.bind(this);
@@ -151,7 +151,7 @@ class App extends React.Component {
   showMyList() {
     const pathname = '/my-recipes';
     const { session } = this.state;
-    // window.history.pushState({ loc: 'myrecipes' }, 'my recipes', pathname);
+    window.history.pushState({ loc: 'myrecipes' }, 'my recipes', pathname);
     fetch(`/api/users/${session.username}/recipes`)
       .then(res => res.json())
       .then((res) => {
