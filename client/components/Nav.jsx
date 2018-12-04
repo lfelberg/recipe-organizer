@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Search from './Search';
 
-const Nav = ({ handleChange, handleSearch, homeNav }) => (
+const Nav = ({
+  handleChange,
+  handleSearch,
+  homeNav,
+  myList,
+}) => (
   <div className="search-bar form-inline">
     <button
       type="button"
@@ -11,7 +16,11 @@ const Nav = ({ handleChange, handleSearch, homeNav }) => (
     >
       Home
     </button>
-    <button type="button" className="btn hidden-sm-down">
+    <button
+      type="button"
+      className="btn hidden-sm-down"
+      onClick={myList}
+    >
       MyList
     </button>
     <Search handleChange={handleChange} handleSearch={() => {}} type="filter" />
@@ -23,6 +32,7 @@ Nav.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleSearch: PropTypes.func.isRequired,
   homeNav: PropTypes.func.isRequired,
+  myList: PropTypes.func.isRequired,
 };
 
 export default Nav;

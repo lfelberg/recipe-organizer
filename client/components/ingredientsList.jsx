@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import IngredientsListEntry from './ingredientsListEntry';
 
 const IngredientsList = ({ ingredients }) => {
-  const ingredient = ingredients.map(i => <IngredientsListEntry item={i} key={i.text} />);
+  const ingredientList = ingredients.map(i => <IngredientsListEntry ingredient={i} key={i} />);
   return (
-    <div className="recipe-viewer">
+    <div className="recipe-ingredient-list">
       <ul>
-        {ingredient}
+        {ingredientList}
       </ul>
     </div>
   );

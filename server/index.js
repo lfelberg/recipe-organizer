@@ -2,22 +2,45 @@ require('dotenv').config();
 const path = require('path');
 const https = require('https');
 const express = require('express');
-const uuid = require('uuid/v4');
-const session = require('express-session');
+const bodyParser = require('body-parser');
+const user = require('./routes/user');
+const db = require('../database/index');
+const {
+  findUserAndValidate,
+  addUser,
+} = require('../database/controllers/user');
 
 const port = process.env.PORT || 3000;
 const app = express();
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+  console.log(`incoming ${req.method} from ${req.path}`);
+  next();
+});
+
 // Static files
 app.use(express.static(path.resolve(__dirname, '../public')));
 
-// add & configure middleware
-app.use(session({
-  genid: () => uuid(),
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-}));
+// routes
+app.use('/api/users/:username', user);
+
+app.post('/login', (req, res) => {
+  findUserAndValidate(req.body)
+    .then((data) => {
+      res.status(200).send({ data });
+    });
+});
+
+app.post('/signup', (req, res) => {
+  addUser(req.body)
+    .then((data) => {
+      res.status(200).send({ data });
+    });
+});
+
 
 app.get('/api/recipes', (req, res) => {
   const { query } = req;

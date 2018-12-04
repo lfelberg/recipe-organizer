@@ -30,6 +30,7 @@ const Search = ({ handleSearch, handleChange, type }) => {
 
 Search.propTypes = {
   handleSearch: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
 };
 

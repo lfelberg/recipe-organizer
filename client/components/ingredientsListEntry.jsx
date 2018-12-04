@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const IngredientsListEntry = ({ item }) => {
-  const { text } = item;
-  return (<li>{text}</li>);
-};
+const IngredientsListEntry = ({ ingredient }) => (<li>{ingredient}</li>);
 
 IngredientsListEntry.propTypes = {
-  item: PropTypes.object.isRequired,
+  ingredient: PropTypes.string.isRequired,
 };
 
 export default IngredientsListEntry;

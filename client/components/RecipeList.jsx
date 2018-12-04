@@ -11,6 +11,10 @@ const RecipeList = ({ recipes, onCurrentRecipeChange }) => {
     />
   ));
 
+  if (recipeListEntries.length === 0) {
+    return (<h1>Please add some recipes!</h1>);
+  }
+
   return (
     <div className="recipe-list">
       {recipeListEntries}

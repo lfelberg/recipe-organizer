@@ -12,9 +12,11 @@
     "test": "echo 'No tests yet!'"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "mongoose": "^5.3.14",
     "prop-types": "^15.6.2",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
