@@ -1,8 +1,6 @@
 const { Recipe } = require('../models/recipe');
 
-const getRecipes = ({ keyword }) => (
-  Recipe.find({ keyword }).exec()
-);
+const getRecipes = query => Recipe.find(query).exec();
 
 const addRecipes = ({ recipes, keyword }) => {
   const recipeDocs = recipes.map(rec => (new Recipe({ ...rec, keyword })));

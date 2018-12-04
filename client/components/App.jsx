@@ -6,6 +6,8 @@ import RecipeViewer from './RecipeViewer';
 import searchEdamam from '../lib/searchEdamam';
 import parseRecipes from '../lib/parseRecipes';
 
+const ESCAPE_KEY = 27;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -24,6 +26,7 @@ class App extends React.Component {
 
       recipes: null,
       currentRecipe: null,
+      recentAdded: false,
       viewRecipe: false,
       showMyRecipes: false,
       loggedIn: true,
@@ -32,6 +35,7 @@ class App extends React.Component {
     this.handleCurrentRecipeChange = this.handleCurrentRecipeChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleViewerClose = this.handleViewerClose.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.getRecipeList = this.getRecipeList.bind(this);
     this.login = this.login.bind(this);
@@ -41,6 +45,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.search();
+    document.addEventListener('keyup', this.handleViewerClose, false);
   }
 
   getRecipeList(recipesToFilter) {
@@ -69,8 +74,15 @@ class App extends React.Component {
       .catch(err => console.log(`Error: ${err}`));
   }
 
+  handleViewerClose(event) {
+    if (event.keyCode === ESCAPE_KEY) {
+      this.setState({ viewRecipe: false });
+    }
+  }
+
   handleAdd(id) {
     const { session, recipes } = this.state;
+    window.scrollTo(0, 0);
     session.recipes = (session.recipes === null) ? {} : session.recipes;
     session.recipes[id] = recipes[id];
     const options = {
@@ -83,7 +95,10 @@ class App extends React.Component {
 
     fetch(`/api/users/${session.username}/recipes`, options)
       .then(res => res.json())
-      .then(() => this.setState({ session, viewRecipe: false }));
+      .then(() => {
+        setTimeout(this.setState.bind(this), 5000, { recentAdded: false });
+        this.setState({ session, viewRecipe: false, recentAdded: true });
+      });
   }
 
   handleChange(key, text, type = 'search') {
@@ -160,6 +175,7 @@ class App extends React.Component {
   renderRecipes() {
     const {
       viewRecipe,
+      recentAdded,
       showMyRecipes,
       currentRecipe,
       recipes,
@@ -185,6 +201,8 @@ class App extends React.Component {
           handleAdd={this.handleAdd}
         />
       );
+    } else if (recentAdded) {
+      current = (<h1>{`${currentRecipe.label} added!`}</h1>);
     }
 
     return (

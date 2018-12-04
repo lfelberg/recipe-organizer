@@ -10,7 +10,8 @@ const recipeRouter = express.Router({ mergeParams: true });
 recipeRouter.get('/', (req, res) => {
   const { query } = req;
   const keyword = query.q.toLowerCase();
-  getRecipes({ keyword })
+  const search = (query.q === '') ? {} : { keyword };
+  getRecipes(search)
     .then((found) => {
       if (found.length !== 0) {
         res.status(200).send({ data: found });
