@@ -3,6 +3,11 @@ import LoginModal from './LoginModal';
 import Nav from './Nav';
 import RecipeList from './RecipeList';
 import RecipeViewer from './RecipeViewer';
+
+import LoginModalContainer from '../containers/LoginModalContainer';
+import NavContainer from '../containers/NavContainer';
+import RecipeListContainer from '../containers/RecipeListContainer';
+import RecipeViewerContainer from '../containers/RecipeViewerContainer';
 import searchEdamam from '../lib/searchEdamam';
 import parseRecipes from '../lib/parseRecipes';
 
